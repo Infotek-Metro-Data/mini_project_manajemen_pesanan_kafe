@@ -1,25 +1,26 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-    </div>
+@extends('layouts.app')
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@section('title', 'Lupa Password')
 
-    <form method="POST" action="{{ route('password.email') }}">
+@section('content')
+<div class="max-w-md mx-auto mt-10">
+    <h1 class="text-2xl font-bold mb-6 text-center">Lupa Password</h1>
+
+    @if(session('success'))
+        <div class="bg-green-500 text-white p-3 mb-4 rounded">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="bg-red-500 text-white p-3 mb-4 rounded">{{ session('error') }}</div>
+    @endif
+
+    <form action="{{ route('password.email') }}" method="POST" class="bg-white p-6 rounded shadow">
         @csrf
+        <label class="block mb-2 font-semibold">Email</label>
+        <input type="email" name="email" class="border p-2 rounded w-full mb-4" required>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">
+            Kirim Link Reset
+        </button>
     </form>
-</x-guest-layout>
+</div>
+@endsection
